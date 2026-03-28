@@ -4,6 +4,7 @@ export interface TabState {
   currentTact: number;
   currentNote: number;
   columnIndex: number;
+  correctNotes?: Set<string>;
 }
 
 export interface TabOptions {

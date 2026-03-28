@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useCorrectNotes, noteCheckerStore } from "@/features/note-checker";
 import { songs } from "@/shared/data";
 import { TabRenderer } from "@/shared/lib/tab-renderer";
 import { useSongIndex, useVisualizerState, learnActions } from "../model/learn-store";
@@ -6,6 +7,7 @@ import { useSongIndex, useVisualizerState, learnActions } from "../model/learn-s
 export function Visualizer() {
   const currentSongIndex = useSongIndex();
   const visualizerState = useVisualizerState();
+  const correctNotes = useCorrectNotes();
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<TabRenderer | null>(null);
 
@@ -49,6 +51,12 @@ export function Visualizer() {
       });
     }
   }, [visualizerState]);
+
+  useEffect(() => {
+    if (rendererRef.current && noteCheckerStore.state.enabled) {
+      rendererRef.current.updateCorrectNotes(new Set(correctNotes));
+    }
+  }, [correctNotes]);
 
   return (
     <section className="bg-white rounded-xl p-6 mb-6 border border-slate-200 shadow-sm">

@@ -20,8 +20,10 @@ const COLORS = {
   tactBar: "#e94560",
   noteDefault: "#ffffff",
   noteActive: "#ffd93d",
+  noteCorrect: "#00ff88",
   text: "#888888",
   highlight: "rgba(233, 69, 96, 0.15)",
+  correctHighlight: "rgba(0, 255, 136, 0.15)",
   playhead: "#00ff88",
 };
 
@@ -230,9 +232,17 @@ export class TabRenderer {
 
       if (note && note.value) {
         ctx.font = "bold 16px Arial";
-        ctx.fillStyle = COLORS.noteDefault;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+
+        const noteKey = `${this.state.columnIndex}-${stringIdx}`;
+        if (this.state.correctNotes?.has(noteKey)) {
+          ctx.fillStyle = COLORS.noteCorrect;
+          ctx.fillRect(x + 2, noteY - 12, NOTE_WIDTH - 4, 20);
+        } else {
+          ctx.fillStyle = COLORS.noteDefault;
+        }
+
         ctx.fillText(note.value, x + NOTE_WIDTH / 2, noteY);
 
         ctx.font = "10px Arial";
@@ -321,6 +331,11 @@ export class TabRenderer {
   resetPlayhead(): void {
     this.playheadProgress = null;
     this.state = { currentTact: 0, currentNote: 0, columnIndex: 0 };
+    this.draw();
+  }
+
+  updateCorrectNotes(correctNotes: Set<string>): void {
+    this.state = { ...this.state, correctNotes };
     this.draw();
   }
 

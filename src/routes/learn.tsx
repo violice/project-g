@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SongSelector, Player, Visualizer } from "@/features/learn";
+import { NoteChecker } from "@/features/note-checker";
 
 export const Route = createFileRoute("/learn")({
   component: RouteComponent,
@@ -23,6 +24,7 @@ function RouteComponent() {
 
       <SongSelector />
       <Player />
+      <NoteChecker />
       <Visualizer />
     </main>
   );

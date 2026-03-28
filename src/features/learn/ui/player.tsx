@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { noteCheckerActions, noteCheckerStore } from "@/features/note-checker";
 import { songs } from "@/shared/data";
 import { MusicPlayer, MusicActionType } from "@/shared/lib/music-player";
 import {
@@ -22,6 +23,13 @@ export function Player({ playerRef }: PlayerProps) {
   const internalPlayerRef = useRef<MusicPlayer | null>(null);
   const activePlayerRef = playerRef ?? internalPlayerRef;
 
+  const handleNoteCheck = (frequencies: number[], tact: number, note: number) => {
+    if (noteCheckerStore.state.enabled && frequencies.length > 0) {
+      noteCheckerActions.setExpectedFrequencies(frequencies);
+      noteCheckerActions.updatePosition(tact, note);
+    }
+  };
+
   useEffect(() => {
     const player = new MusicPlayer();
     activePlayerRef.current = player;
@@ -31,6 +39,9 @@ export function Player({ playerRef }: PlayerProps) {
         learnActions.setPlaybackState("playing");
         learnActions.setProgress(0);
         learnActions.updateVisualizerState({ currentTact: 0, currentNote: 0, columnIndex: 0 });
+        if (noteCheckerStore.state.enabled) {
+          noteCheckerActions.reset();
+        }
       },
       onPause: () => learnActions.setPlaybackState("paused"),
       onStop: () => {
@@ -38,6 +49,10 @@ export function Player({ playerRef }: PlayerProps) {
         learnActions.setProgress(0);
         learnActions.setPosition({ tact: 0, beat: 0, total: 0 });
         learnActions.updateVisualizerState({ currentTact: 0, currentNote: 0, columnIndex: 0 });
+        noteCheckerActions.reset();
+      },
+      onNote: (frequencies, tact, note) => {
+        handleNoteCheck(frequencies, tact, note);
       },
       onTick: pos => {
         const staves = songs[currentSongIndex].composition.staves[0].tacts;

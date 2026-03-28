@@ -83,7 +83,9 @@ export class AudioPitchDetector {
     this.mediaStream = null;
 
     if (this.audioContext) {
-      await this.audioContext.close();
+      if (this.audioContext.state !== "closed") {
+        await this.audioContext.close();
+      }
       this.audioContext = null;
     }
 
