@@ -137,7 +137,7 @@ export function Player({ playerRef }: PlayerProps) {
   };
 
   const handleBpmDown = () => {
-    const newSpeed = Math.max(0.3, playbackSpeed - 0.1);
+    const newSpeed = Math.max(0.1, playbackSpeed - 0.1);
     learnActions.setPlaybackSpeed(parseFloat(newSpeed.toFixed(1)));
   };
 
