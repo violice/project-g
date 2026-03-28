@@ -1,4 +1,4 @@
-import { type TactInfo, type SliderMovementInfo } from './models';
+import { type TactInfo, type SliderMovementInfo } from "./models";
 
 export const VERTICAL_TACT_MARGIN = 120;
 export const NOTE_LENGTH = 32;
@@ -21,7 +21,8 @@ export class MusicPositionService {
       tacts[i].notes.forEach((noteColumn, index) => {
         const time = (noteColumn[0].duration / 32.0) * entireNote;
         const speed = NOTE_LENGTH / time;
-        const jumpBelow = i + 1 < tacts.length &&
+        const jumpBelow =
+          i + 1 < tacts.length &&
           index + 1 === tacts[i].notes.length &&
           tacts[i].topLeftCorner !== tacts[i + 1].topLeftCorner;
         const endOfTact = index + 1 === tacts[i].notes.length;
@@ -33,7 +34,7 @@ export class MusicPositionService {
           note: index,
           jumpBelow,
           jumpHeight: tacts[i].height,
-          endOfTact
+          endOfTact,
         });
       });
     }

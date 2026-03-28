@@ -1,10 +1,10 @@
-export { NoteFunctionType, MusicActionType, NoteDuration } from './types';
+import { NoteFunctionType } from "./types";
+
+export { NoteFunctionType, MusicActionType, NoteDuration } from "./types";
 export interface Tuning {
   note: string;
   frequency: number;
 }
-
-import { NoteFunctionType } from './types';
 
 export interface NoteDto {
   value: string;

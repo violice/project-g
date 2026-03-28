@@ -1,1 +1,1 @@
-export {useAudioPitchDetector } from './audio-pitch.hooks';
+export { useAudioPitchDetector } from "./audio-pitch.hooks";

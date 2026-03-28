@@ -1,6 +1,6 @@
+import { useStore } from "@tanstack/react-store";
 import { createStore } from "@tanstack/store";
 import type { TabRenderer } from "@/shared/lib/tab-renderer";
-import { useStore } from "@tanstack/react-store";
 
 export type PlaybackState = "playing" | "paused" | "stopped";
 
@@ -44,7 +44,8 @@ export const useProgress = () => useStore(learnStore, s => s.progress);
 export const usePosition = (): Position => useStore(learnStore, s => s.position);
 export const useBpm = () => useStore(learnStore, s => s.bpm);
 export const useRenderer = (): TabRenderer | null => useStore(learnStore, s => s.renderer);
-export const useVisualizerState = (): VisualizerState => useStore(learnStore, s => s.visualizerState);
+export const useVisualizerState = (): VisualizerState =>
+  useStore(learnStore, s => s.visualizerState);
 
 export const learnActions = {
   setSongIndex: (index: number) =>

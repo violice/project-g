@@ -1,6 +1,6 @@
 import { useAudioPitchDetector } from "@/shared/lib/audio-pitch";
 
-export const  Tuner = () => {
+export const Tuner = () => {
   const { status, currentResult, isListening, isInTune, detuneAmount, start, stop, error } =
     useAudioPitchDetector({
       clarityThreshold: 0.92,
@@ -94,4 +94,4 @@ export const  Tuner = () => {
       )}
     </div>
   );
-}
+};

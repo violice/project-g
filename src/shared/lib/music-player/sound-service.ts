@@ -60,7 +60,8 @@ export class SoundService {
     buffer[0] = (w / (1 + w)) * samples[0];
 
     for (let i = 1; i < samples.length; i++) {
-      buffer[i] = (w / (1 + w)) * (samples[i] + samples[i - 1]) + ((1 - w) / (1 + w)) * buffer[i - 1];
+      buffer[i] =
+        (w / (1 + w)) * (samples[i] + samples[i - 1]) + ((1 - w) / (1 + w)) * buffer[i - 1];
     }
 
     for (let i = 0; i < buffer.length; i++) {

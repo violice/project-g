@@ -1,5 +1,5 @@
 import { songs } from "@/shared/data";
-import { useSongIndex, learnActions } from "../../model/learn-store";
+import { useSongIndex, learnActions } from "../model/learn-store";
 
 export function SongSelector() {
   const currentSongIndex = useSongIndex();

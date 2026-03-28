@@ -1,4 +1,4 @@
-import { SoundService } from './sound-service';
+import { SoundService } from "./sound-service";
 
 export class PlaySoundService {
   private soundService: SoundService;
@@ -40,9 +40,12 @@ export class PlaySoundService {
     source.start(0, 0, duration);
     source.stop(duration);
 
-    setTimeout(() => {
-      audioCtx.close();
-    }, duration * 1000 + 100);
+    setTimeout(
+      () => {
+        audioCtx.close();
+      },
+      duration * 1000 + 100,
+    );
   }
 
   clear(): void {}

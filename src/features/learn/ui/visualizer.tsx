@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { songs } from "@/shared/data";
 import { TabRenderer } from "@/shared/lib/tab-renderer";
-import { useSongIndex, useVisualizerState, learnActions } from "../../model/learn-store";
+import { useSongIndex, useVisualizerState, learnActions } from "../model/learn-store";
 
 export function Visualizer() {
   const currentSongIndex = useSongIndex();

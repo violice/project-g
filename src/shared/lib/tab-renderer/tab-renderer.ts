@@ -1,22 +1,28 @@
-import { type Composition, type StaveInfo, type TactInfo, type NoteDto, NoteDuration } from '../music-player';
-import type { TabState, TabOptions } from './types';
+import {
+  type Composition,
+  type StaveInfo,
+  type TactInfo,
+  type NoteDto,
+  NoteDuration,
+} from "../music-player";
+import type { TabState, TabOptions } from "./types";
 
 const STRING_SPACING = 24;
 const NOTE_WIDTH = 40;
 const TACT_PADDING = 20;
 const STAVE_GAP = 60;
 const STRING_COUNT = 6;
-const DEFAULT_STRINGS = ['e', 'B', 'G', 'D', 'A', 'E'];
+const DEFAULT_STRINGS = ["e", "B", "G", "D", "A", "E"];
 
 const COLORS = {
-  background: '#1a1a2e',
-  strings: '#4a4a6a',
-  tactBar: '#e94560',
-  noteDefault: '#ffffff',
-  noteActive: '#ffd93d',
-  text: '#888888',
-  highlight: 'rgba(233, 69, 96, 0.15)',
-  playhead: '#00ff88'
+  background: "#1a1a2e",
+  strings: "#4a4a6a",
+  tactBar: "#e94560",
+  noteDefault: "#ffffff",
+  noteActive: "#ffd93d",
+  text: "#888888",
+  highlight: "rgba(233, 69, 96, 0.15)",
+  playhead: "#00ff88",
 };
 
 export interface PlayheadProgress {
@@ -39,16 +45,16 @@ export class TabRenderer {
     this.container = container;
     this.options = {
       stringNames: options.stringNames ?? DEFAULT_STRINGS,
-      showTactNumbers: options.showTactNumbers ?? true
+      showTactNumbers: options.showTactNumbers ?? true,
     };
 
-    this.canvas = document.createElement('canvas');
-    this.canvas.style.display = 'block';
-    this.ctx = this.canvas.getContext('2d')!;
+    this.canvas = document.createElement("canvas");
+    this.canvas.style.display = "block";
+    this.ctx = this.canvas.getContext("2d")!;
     container.appendChild(this.canvas);
 
     this.handleResize();
-    window.addEventListener('resize', () => this.handleResize());
+    window.addEventListener("resize", () => this.handleResize());
   }
 
   private handleResize(): void {
@@ -77,7 +83,7 @@ export class TabRenderer {
 
   private draw(): void {
     const { width, height } = this.canvas;
-    
+
     this.ctx.fillStyle = COLORS.background;
     this.ctx.fillRect(0, 0, width, height);
 
@@ -110,7 +116,7 @@ export class TabRenderer {
       }
 
       if (this.options.showTactNumbers) {
-        ctx.font = '12px Arial';
+        ctx.font = "12px Arial";
         ctx.fillStyle = COLORS.text;
         ctx.fillText(`${tact.serialNumber + 1}`, currentX, currentY - 35);
       }
@@ -118,7 +124,7 @@ export class TabRenderer {
       this.tactYPositions.set(tact.serialNumber, currentY);
       this.drawTact(tact, currentX, currentY, globalColOffset);
       globalColOffset += tact.notes.length;
-      
+
       currentX += tactWidth + TACT_PADDING;
       tactInRow++;
     }
@@ -168,21 +174,23 @@ export class TabRenderer {
   private calculatePlayheadX(tact: TactInfo, tactX: number, noteColumnIndex: number): number {
     const noteX = tactX + TACT_PADDING;
     const baseX = noteX + noteColumnIndex * NOTE_WIDTH;
-    
-    if (this.playheadProgress && 
-        this.playheadProgress.tactIndex === tact.serialNumber &&
-        this.playheadProgress.noteIndex === noteColumnIndex) {
+
+    if (
+      this.playheadProgress &&
+      this.playheadProgress.tactIndex === tact.serialNumber &&
+      this.playheadProgress.noteIndex === noteColumnIndex
+    ) {
       const fraction = this.playheadProgress.fraction;
       return baseX + NOTE_WIDTH * fraction;
     }
-    
+
     return baseX + NOTE_WIDTH / 2;
   }
 
   private drawPlayhead(x: number, y: number): void {
     const ctx = this.ctx;
     const height = (STRING_COUNT - 1) * STRING_SPACING;
-    
+
     ctx.strokeStyle = COLORS.playhead;
     ctx.lineWidth = 2;
     ctx.beginPath();
@@ -203,7 +211,7 @@ export class TabRenderer {
     const ctx = this.ctx;
     ctx.strokeStyle = COLORS.strings;
     ctx.lineWidth = 1;
-    
+
     for (let i = 0; i < STRING_COUNT; i++) {
       const stringY = y + i * STRING_SPACING;
       ctx.beginPath();
@@ -221,14 +229,14 @@ export class TabRenderer {
       const noteY = startY + stringIdx * STRING_SPACING;
 
       if (note && note.value) {
-        ctx.font = 'bold 16px Arial';
+        ctx.font = "bold 16px Arial";
         ctx.fillStyle = COLORS.noteDefault;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
         ctx.fillText(note.value, x + NOTE_WIDTH / 2, noteY);
 
-        ctx.font = '10px Arial';
-        ctx.fillStyle = '#ff0000';
+        ctx.font = "10px Arial";
+        ctx.fillStyle = "#ff0000";
         ctx.fillText(`S${stringIdx}`, x + NOTE_WIDTH / 2, noteY - 12);
       }
     }
@@ -245,24 +253,24 @@ export class TabRenderer {
     };
     return durationsMap[duration as keyof typeof durationsMap];
   }
-//   export enum NoteDuration {
-//   SIXTY_FOUR = 1,
-//   THIRTY_TWO = 2,
-//   SIXTEENTH = 4,
-//   EIGHTH = 8,
-//   HALF = 16,
-//   SEMIBREVE = 32
-// }
- 
+  //   export enum NoteDuration {
+  //   SIXTY_FOUR = 1,
+  //   THIRTY_TWO = 2,
+  //   SIXTEENTH = 4,
+  //   EIGHTH = 8,
+  //   HALF = 16,
+  //   SEMIBREVE = 32
+  // }
+
   private drawDurations(tact: TactInfo, x: number, y: number): void {
     const ctx = this.ctx;
     const lastStringY = y + (STRING_COUNT - 1) * STRING_SPACING;
     const durationY = lastStringY + 18;
 
-    ctx.font = '10px Arial';
+    ctx.font = "10px Arial";
     ctx.fillStyle = COLORS.text;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
 
     for (let colIdx = 0; colIdx < tact.notes.length; colIdx++) {
       const column = tact.notes[colIdx];
@@ -284,7 +292,7 @@ export class TabRenderer {
 
   updatePlayheadProgress(progress: PlayheadProgress): void {
     this.playheadProgress = progress;
-    
+
     if (this.composition) {
       let columnIndex = 0;
       let found = false;
@@ -299,9 +307,14 @@ export class TabRenderer {
         }
         if (found) break;
       }
-      this.state = { ...this.state, currentTact: progress.tactIndex, currentNote: progress.noteIndex, columnIndex };
+      this.state = {
+        ...this.state,
+        currentTact: progress.tactIndex,
+        currentNote: progress.noteIndex,
+        columnIndex,
+      };
     }
-    
+
     this.draw();
   }
 
@@ -312,7 +325,7 @@ export class TabRenderer {
   }
 
   destroy(): void {
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
     this.canvas.remove();
   }
 }

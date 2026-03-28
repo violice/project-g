@@ -1,4 +1,4 @@
-import type { Composition, StaveInfo, TactInfo, NoteDto } from '../music-player';
+import type { Composition, StaveInfo, TactInfo, NoteDto } from "../music-player";
 
 export interface TabState {
   currentTact: number;

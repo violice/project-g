@@ -1,15 +1,16 @@
-import type {
-  Composition,
-  StaveInfo,
-  SliderContext,
-  SliderMovementInfo,
-} from './models';
-import { MusicActionType } from './models';
-import { FrequencyService } from './frequency-service';
-import { PlaySoundService } from './play-sound-service';
-import { MusicPositionService, START_LEFT_OFFSET, START_TOP_OFFSET, SLIDER_NORMALIZATION, VERTICAL_TACT_MARGIN } from './music-position-service';
+import { FrequencyService } from "./frequency-service";
+import type { Composition, StaveInfo, SliderContext, SliderMovementInfo } from "./models";
+import { MusicActionType } from "./models";
+import {
+  MusicPositionService,
+  START_LEFT_OFFSET,
+  START_TOP_OFFSET,
+  SLIDER_NORMALIZATION,
+  VERTICAL_TACT_MARGIN,
+} from "./music-position-service";
+import { PlaySoundService } from "./play-sound-service";
 
-export type PlaybackState = 'stopped' | 'playing' | 'paused';
+export type PlaybackState = "stopped" | "playing" | "paused";
 
 export interface MusicPlayerEvents {
   onPlay?: () => void;
@@ -59,14 +60,14 @@ export class MusicPlayer {
       currentInterval: 0,
       playIntervals: [],
       intervals: [],
-      timeouts: []
+      timeouts: [],
     };
   }
 
   getPlaybackState(): PlaybackState {
-    if (this.playing) return 'paused';
-    if (this.playing && !this.paused) return 'playing';
-    return 'stopped';
+    if (this.playing) return "paused";
+    if (this.playing && !this.paused) return "playing";
+    return "stopped";
   }
 
   isPlaying(): boolean {
@@ -104,7 +105,10 @@ export class MusicPlayer {
       const context = this.staveContexts.get(index) || this.createSliderContext();
       context.left = START_LEFT_OFFSET;
       context.top = START_TOP_OFFSET;
-      context.playIntervals = this.musicPositionService.calculateTime(stave.tacts, this.composition!.bpm);
+      context.playIntervals = this.musicPositionService.calculateTime(
+        stave.tacts,
+        this.composition!.bpm,
+      );
       context.currentInterval = 0;
       this.staveContexts.set(index, context);
     });
@@ -162,59 +166,68 @@ export class MusicPlayer {
     let sliderDelay = 0;
 
     for (let i = context.currentInterval; i < context.playIntervals.length; i++) {
-      const timeout = setTimeout((intervalIndex: number) => {
-        context.currentInterval = intervalIndex;
-        const interval = context.playIntervals[intervalIndex];
-        
-        const frequencies = this.getNoteFrequencies(interval, stave);
-        if (frequencies.length > 0) {
-          this.playSoundService.playSound(frequencies);
-          this.events.onNote?.(frequencies, interval.tact || 0, interval.note || 0);
-        }
+      const timeout = setTimeout(
+        (intervalIndex: number) => {
+          context.currentInterval = intervalIndex;
+          const interval = context.playIntervals[intervalIndex];
 
-        this.events.onTick?.({
-          tact: interval.tact || 0,
-          note: interval.note || 0,
-          time: interval.time
-        });
+          const frequencies = this.getNoteFrequencies(interval, stave);
+          if (frequencies.length > 0) {
+            this.playSoundService.playSound(frequencies);
+            this.events.onNote?.(frequencies, interval.tact || 0, interval.note || 0);
+          }
 
-        let times = Math.floor(interval.time);
-        const fractional = interval.time % 1;
-        const totalSteps = Math.floor(interval.time);
-        let elapsedSteps = 0;
-
-        const moveInterval = setInterval((speed: number, isEndOfTact: boolean) => {
-          context.left += speed;
-          times--;
-          elapsedSteps++;
-
-          const fraction = totalSteps > 0 ? elapsedSteps / totalSteps : 1;
-          
-          this.events.onProgress?.({
-            tactIndex: interval.tact || 0,
-            noteIndex: interval.note || 0,
-            fraction: Math.min(1, Math.max(0, fraction))
+          this.events.onTick?.({
+            tact: interval.tact || 0,
+            note: interval.note || 0,
+            time: interval.time,
           });
 
-          if (times <= 0) {
-            context.left += fractional * speed;
-            this.handleJump(context, intervalIndex);
-            
-            if (context.currentInterval === context.playIntervals.length - 1) {
-              this.playing = false;
-              this.events.onEnd?.();
-            }
+          let times = Math.floor(interval.time);
+          const fractional = interval.time % 1;
+          const totalSteps = Math.floor(interval.time);
+          let elapsedSteps = 0;
 
-            if (isEndOfTact) {
-              context.left += SLIDER_NORMALIZATION;
-            }
+          const moveInterval = setInterval(
+            (speed: number, isEndOfTact: boolean) => {
+              context.left += speed;
+              times--;
+              elapsedSteps++;
 
-            clearInterval(moveInterval);
-          }
-        }, 10, interval.speed, interval.endOfTact);
+              const fraction = totalSteps > 0 ? elapsedSteps / totalSteps : 1;
 
-        context.intervals.push(moveInterval);
-      }, sliderDelay, i);
+              this.events.onProgress?.({
+                tactIndex: interval.tact || 0,
+                noteIndex: interval.note || 0,
+                fraction: Math.min(1, Math.max(0, fraction)),
+              });
+
+              if (times <= 0) {
+                context.left += fractional * speed;
+                this.handleJump(context, intervalIndex);
+
+                if (context.currentInterval === context.playIntervals.length - 1) {
+                  this.playing = false;
+                  this.events.onEnd?.();
+                }
+
+                if (isEndOfTact) {
+                  context.left += SLIDER_NORMALIZATION;
+                }
+
+                clearInterval(moveInterval);
+              }
+            },
+            10,
+            interval.speed,
+            interval.endOfTact,
+          );
+
+          context.intervals.push(moveInterval);
+        },
+        sliderDelay,
+        i,
+      );
 
       context.timeouts.push(timeout);
       sliderDelay += context.playIntervals[i].time * 10;

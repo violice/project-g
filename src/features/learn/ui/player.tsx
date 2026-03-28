@@ -7,7 +7,7 @@ import {
   useProgress,
   usePosition,
   learnActions,
-} from "../../model/learn-store";
+} from "../model/learn-store";
 
 interface PlayerProps {
   playerRef?: React.MutableRefObject<MusicPlayer | null>;

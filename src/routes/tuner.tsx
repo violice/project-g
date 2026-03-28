@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Tuner } from "@/shared/components";
+import { Tuner } from "@/widgets/tuner";
 
 export const Route = createFileRoute("/tuner")({
   component: RouteComponent,
