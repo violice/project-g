@@ -1,0 +1,1 @@
+export { safeAsync } from './safe-async';

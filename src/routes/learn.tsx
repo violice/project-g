@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { songs } from "@/shared/data";
 import { MusicPlayer, MusicActionType } from "@/shared/lib/music-player";
 import { TabRenderer } from "@/shared/lib/tab-renderer";
@@ -12,21 +12,11 @@ function RouteComponent() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [playbackState, setPlaybackState] = useState<"playing" | "paused" | "stopped">("stopped");
   const [progress, setProgress] = useState(0);
-  const [logs, setLogs] = useState<{ message: string; type: "note" | "info" }[]>([
-    { message: "Ready to play. Select a song and press Play.", type: "info" },
-  ]);
   const [position, setPosition] = useState({ tact: 0, beat: 0, total: 0 });
 
   const playerRef = useRef<MusicPlayer | null>(null);
   const tabRendererRef = useRef<TabRenderer | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const addLog = useCallback((message: string, type: "note" | "info" = "info") => {
-    setLogs(prev => [
-      ...prev,
-      { message: `[${new Date().toLocaleTimeString()}] ${message}`, type },
-    ]);
-  }, []);
 
   useEffect(() => {
     const player = new MusicPlayer();
@@ -42,9 +32,6 @@ function RouteComponent() {
         setPlaybackState("stopped");
         setProgress(0);
         setPosition({ tact: 0, beat: 0, total: 0 });
-      },
-      onNote: frequencies => {
-        addLog(`Note: ${frequencies.map(f => Math.round(f) + "Hz").join(", ")}`, "note");
       },
       onTick: pos => {
         const staves = songs[currentSongIndex].composition.staves[0].tacts;
@@ -73,7 +60,6 @@ function RouteComponent() {
         setPosition({ tact: pos.tact + 1, beat: pos.note + 1, total: tactCount });
       },
       onEnd: () => {
-        addLog("Song ended!", "info");
         setProgress(100);
         setPlaybackState("stopped");
       },
@@ -84,7 +70,7 @@ function RouteComponent() {
     return () => {
       player.handleAction(MusicActionType.STOP);
     };
-  }, [currentSongIndex, addLog]);
+  }, [currentSongIndex]);
 
   useEffect(() => {
     if (containerRef.current && !tabRendererRef.current) {
@@ -115,7 +101,6 @@ function RouteComponent() {
   }, [currentSongIndex]);
 
   const handlePlay = () => {
-    addLog("Starting playback...", "info");
     if (playerRef.current) {
       playerRef.current.loadComposition(songs[currentSongIndex].composition);
       playerRef.current.handleAction(MusicActionType.PLAY);
@@ -129,7 +114,6 @@ function RouteComponent() {
   };
 
   const handleStop = () => {
-    addLog("Stopped.", "info");
     if (playerRef.current) {
       playerRef.current.handleAction(MusicActionType.STOP);
     }
@@ -138,7 +122,6 @@ function RouteComponent() {
   const handleBpmUp = () => {
     songs[currentSongIndex].composition.bpm += 10;
     songs[currentSongIndex].bpm = songs[currentSongIndex].composition.bpm;
-    addLog(`BPM increased to ${songs[currentSongIndex].composition.bpm}`, "info");
   };
 
   const handleBpmDown = () => {
@@ -147,7 +130,6 @@ function RouteComponent() {
       songs[currentSongIndex].composition.bpm - 10,
     );
     songs[currentSongIndex].bpm = songs[currentSongIndex].composition.bpm;
-    addLog(`BPM decreased to ${songs[currentSongIndex].composition.bpm}`, "info");
   };
 
   const handleSelectSong = (index: number) => {
@@ -157,24 +139,23 @@ function RouteComponent() {
     setCurrentSongIndex(index);
   };
 
-  const clearLogs = () => {
-    setLogs([{ message: "Ready to play. Select a song and press Play.", type: "info" }]);
-  };
-
   return (
-    <div className="page-wrap px-4 pb-8 pt-14">
-      <h1
-        className="display-title text-3xl font-bold text-center mb-2"
-        style={{ color: "var(--sea-ink)" }}
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-200 px-4 pb-8 pt-14">
+      <Link
+        to="/"
+        className="inline-flex items-center gap-2 mb-6 px-3 py-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all"
       >
-        Music Player Demo
-      </h1>
-      <p className="text-center mb-8" style={{ color: "var(--sea-ink-soft)" }}>
+        <span>←</span>
+        <span>На главную</span>
+      </Link>
+
+      <h1 className="text-3xl font-bold text-center mb-2 text-slate-800">Music Player Demo</h1>
+      <p className="text-center mb-8 text-slate-500">
         Guitar synthesizer using Karplus-Strong algorithm
       </p>
 
-      <section className="island-shell p-6 mb-6">
-        <h2 className="island-kicker mb-4">Select a Song</h2>
+      <section className="bg-white rounded-xl p-6 mb-6 border border-slate-200 shadow-sm">
+        <h2 className="text-lg font-semibold text-slate-700 mb-4">Select a Song</h2>
         <div className="flex flex-col gap-3">
           {songs.map((song, index) => (
             <button
@@ -182,25 +163,13 @@ function RouteComponent() {
               onClick={() => handleSelectSong(index)}
               className={`text-left p-4 rounded-lg border transition-all ${
                 index === currentSongIndex
-                  ? "border-lagoon-deep bg-lagoon/10"
-                  : "border-line bg-surface hover:border-lagoon"
+                  ? "border-blue-400 bg-blue-50"
+                  : "border-slate-200 bg-white hover:border-blue-300"
               }`}
-              style={{
-                backgroundColor:
-                  index === currentSongIndex ? "rgba(79, 184, 178, 0.1)" : "var(--surface)",
-                borderColor: index === currentSongIndex ? "var(--lagoon-deep)" : "var(--line)",
-              }}
             >
-              <h3 className="font-semibold" style={{ color: "var(--sea-ink)" }}>
-                {song.name}
-              </h3>
-              <p className="text-sm" style={{ color: "var(--sea-ink-soft)" }}>
-                {song.description}
-              </p>
-              <span
-                className="inline-block mt-2 px-2 py-1 rounded text-xs"
-                style={{ backgroundColor: "var(--chip-bg)", color: "var(--sea-ink-soft)" }}
-              >
+              <h3 className="font-semibold text-slate-800">{song.name}</h3>
+              <p className="text-sm text-slate-500">{song.description}</p>
+              <span className="inline-block mt-2 px-2 py-1 rounded text-xs bg-slate-100 text-slate-500">
                 {song.bpm} BPM
               </span>
             </button>
@@ -208,79 +177,69 @@ function RouteComponent() {
         </div>
       </section>
 
-      <section className="island-shell p-6 mb-6">
-        <h2 className="island-kicker mb-4">Now Playing</h2>
-        <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}>
+      <section className="bg-white rounded-xl p-6 mb-6 border border-slate-200 shadow-sm">
+        <h2 className="text-lg font-semibold text-slate-700 mb-4">Now Playing</h2>
+        <div className="rounded-lg p-4 mb-4 bg-slate-100">
           <div className="flex items-center gap-3 mb-2">
-            <span className="font-semibold text-lg" style={{ color: "var(--sea-ink)" }}>
+            <span className="font-semibold text-lg text-slate-800">
               {songs[currentSongIndex].name}
             </span>
             <span
-              className="px-3 py-1 rounded text-sm text-white capitalize"
-              style={{
-                backgroundColor:
-                  playbackState === "playing"
-                    ? "#4caf50"
-                    : playbackState === "paused"
-                      ? "#ff9800"
-                      : "#666",
-              }}
+              className={`px-3 py-1 rounded text-sm text-white capitalize ${
+                playbackState === "playing"
+                  ? "bg-green-500"
+                  : playbackState === "paused"
+                    ? "bg-yellow-500"
+                    : "bg-slate-500"
+              }`}
             >
               {playbackState}
             </span>
           </div>
-          <p className="text-sm mb-4" style={{ color: "var(--sea-ink-soft)" }}>
+          <p className="text-sm mb-4 text-slate-500">
             {songs[currentSongIndex].description} • {songs[currentSongIndex].bpm} BPM
           </p>
 
           <div className="flex flex-wrap gap-2 mb-4">
             <button
               onClick={handlePlay}
-              className="px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90"
-              style={{ backgroundColor: "#646cff", color: "white", border: "1px solid #646cff" }}
+              className="px-4 py-2 rounded-lg font-medium bg-blue-500 text-white hover:bg-blue-600 transition-all"
             >
               Play
             </button>
             <button
               onClick={handlePause}
-              className="px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90"
-              style={{ backgroundColor: "var(--chip-bg)", border: "1px solid var(--line)" }}
+              className="px-4 py-2 rounded-lg font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-all"
             >
               Pause
             </button>
             <button
               onClick={handleStop}
-              className="px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90"
-              style={{ backgroundColor: "#ff4444", color: "white", border: "1px solid #ff4444" }}
+              className="px-4 py-2 rounded-lg font-medium bg-red-500 text-white hover:bg-red-600 transition-all"
             >
               Stop
             </button>
             <button
               onClick={handleBpmUp}
-              className="px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90"
-              style={{ backgroundColor: "var(--chip-bg)", border: "1px solid var(--line)" }}
+              className="px-4 py-2 rounded-lg font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-all"
             >
               BPM +10
             </button>
             <button
               onClick={handleBpmDown}
-              className="px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90"
-              style={{ backgroundColor: "var(--chip-bg)", border: "1px solid var(--line)" }}
+              className="px-4 py-2 rounded-lg font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-all"
             >
               BPM -10
             </button>
           </div>
 
-          <div className="h-2 rounded overflow-hidden mb-2" style={{ backgroundColor: "#333" }}>
+          <div className="h-2 rounded overflow-hidden mb-2 bg-slate-300">
             <div
-              className="h-full transition-all duration-150 rounded"
-              style={{
-                width: `${Math.round(progress)}%`,
-                background: "linear-gradient(90deg, #646cff, #bd34fe)",
-              }}
+              className="h-full transition-all duration-150 rounded bg-gradient-to-r from-blue-500 to-blue-400"
+              style={{ width: `${Math.round(progress)}%` }}
             />
           </div>
-          <p className="text-sm" style={{ color: "var(--sea-ink-soft)" }}>
+          <p className="text-sm text-slate-500">
             Position:{" "}
             {position.tact === 0 && position.total === 0
               ? "-- / --"
@@ -289,48 +248,13 @@ function RouteComponent() {
         </div>
       </section>
 
-      <section className="island-shell p-6 mb-6">
-        <h2 className="island-kicker mb-4">Score Visualization</h2>
+      <section className="bg-white rounded-xl p-6 mb-6 border border-slate-200 shadow-sm">
+        <h2 className="text-lg font-semibold text-slate-700 mb-4">Score Visualization</h2>
         <div
           ref={containerRef}
-          className="rounded-lg overflow-x-auto"
-          style={{
-            backgroundColor: "#1a1a2e",
-            minHeight: "200px",
-            maxHeight: "400px",
-          }}
+          className="rounded-lg overflow-x-auto bg-slate-900 min-h-[200px] max-h-[400px]"
         />
       </section>
-
-      <section className="island-shell p-6">
-        <h2 className="island-kicker mb-4">Event Log</h2>
-        <div
-          className="rounded-lg p-4 overflow-y-auto font-mono text-sm"
-          style={{
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            maxHeight: "200px",
-          }}
-        >
-          {logs.map((log, index) => (
-            <div
-              key={index}
-              style={{
-                margin: "0.25rem 0",
-                color: log.type === "note" ? "#4fc3f7" : "#aaa",
-              }}
-            >
-              {log.message}
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={clearLogs}
-          className="mt-3 px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90"
-          style={{ backgroundColor: "var(--chip-bg)", border: "1px solid var(--line)" }}
-        >
-          Clear Log
-        </button>
-      </section>
-    </div>
+    </main>
   );
 }

@@ -17,6 +17,7 @@
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-router": "latest",
     "@tanstack/react-router-devtools": "latest",
+    "@tanstack/react-store": "^0.9.3",
     "@tanstack/router-plugin": "^1.132.0",
     "lucide-react": "^0.545.0",
     "pitchy": "^4.1.0",
