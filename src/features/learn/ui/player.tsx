@@ -9,6 +9,7 @@ import {
   useProgress,
   usePosition,
   usePlaybackSpeed,
+  useRenderer,
   learnActions,
 } from "../model/learn-store";
 
@@ -29,6 +30,9 @@ export function Player({ playerRef }: PlayerProps) {
 
   const internalPlayerRef = useRef<MusicPlayer | null>(null);
   const activePlayerRef = playerRef ?? internalPlayerRef;
+  const renderer = useRenderer();
+  const rendererRef = useRef(renderer);
+  rendererRef.current = renderer;
 
   const handleNoteCheck = (frequencies: number[], tact: number, note: number) => {
     if (noteCheckerStore.state.enabled && frequencies.length > 0) {
@@ -47,6 +51,7 @@ export function Player({ playerRef }: PlayerProps) {
         learnActions.setProgress(0);
         learnActions.updateVisualizerState({ currentTact: 0, currentNote: 0, columnIndex: 0 });
         noteCheckerActions.reset();
+        rendererRef.current?.resetPlayhead();
       },
       onPause: () => learnActions.setPlaybackState("paused"),
       onStop: () => {
@@ -55,6 +60,7 @@ export function Player({ playerRef }: PlayerProps) {
         learnActions.setPosition({ tact: 0, beat: 0, total: 0 });
         learnActions.updateVisualizerState({ currentTact: 0, currentNote: 0, columnIndex: 0 });
         noteCheckerActions.reset();
+        rendererRef.current?.resetPlayhead();
       },
       onNote: (frequencies, tact, note) => {
         handleNoteCheck(frequencies, tact, note);
@@ -84,6 +90,15 @@ export function Player({ playerRef }: PlayerProps) {
           currentNote: pos.note,
           columnIndex,
         });
+      },
+      onProgress: progress => {
+        if (rendererRef.current) {
+          rendererRef.current.updatePlayheadProgress({
+            tactIndex: progress.tactIndex,
+            noteIndex: progress.noteIndex,
+            fraction: progress.fraction,
+          });
+        }
       },
       onEnd: () => {
         learnActions.setProgress(100);

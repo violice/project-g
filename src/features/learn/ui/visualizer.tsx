@@ -2,11 +2,10 @@ import { useEffect, useRef } from "react";
 import { useCorrectNotes, noteCheckerStore } from "@/features/note-checker";
 import { songs } from "@/shared/data";
 import { TabRenderer } from "@/shared/lib/tab-renderer";
-import { useSongIndex, useVisualizerState, learnActions } from "../model/learn-store";
+import { useSongIndex, learnActions } from "../model/learn-store";
 
 export function Visualizer() {
   const currentSongIndex = useSongIndex();
-  const visualizerState = useVisualizerState();
   const correctNotes = useCorrectNotes();
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<TabRenderer | null>(null);
@@ -34,23 +33,9 @@ export function Visualizer() {
   useEffect(() => {
     if (rendererRef.current) {
       rendererRef.current.render(songs[currentSongIndex].composition);
-      rendererRef.current.updateState({
-        currentTact: 0,
-        currentNote: 0,
-        columnIndex: 0,
-      });
+      rendererRef.current.resetPlayhead();
     }
   }, [currentSongIndex]);
-
-  useEffect(() => {
-    if (rendererRef.current) {
-      rendererRef.current.updateState({
-        currentTact: visualizerState.currentTact,
-        currentNote: visualizerState.currentNote,
-        columnIndex: visualizerState.columnIndex,
-      });
-    }
-  }, [visualizerState]);
 
   useEffect(() => {
     if (rendererRef.current && noteCheckerStore.state.enabled) {
