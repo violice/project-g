@@ -1,5 +1,7 @@
 import type { Composition } from "../lib/music-player";
 import { NoteFunctionType, NoteDuration } from "../lib/music-player";
+import { jsonToComposition } from "./json-converter";
+import json from './SNA.json';
 
 const createLine = (
   value: string,
@@ -56,7 +58,15 @@ const makeSong = (
   },
 });
 
+const composition = jsonToComposition(json, "SNA", 60);
+
 export const songs: Song[] = [
+  {
+    bpm: 60,
+    name: "Seven Nation Army",
+    description: "The White Stripe",
+    composition,
+  },
   makeSong("Smoke on the Water", "Deep Purple — культовый рифф", 120, [
     makeTact(
       [
@@ -193,39 +203,39 @@ export const songs: Song[] = [
       3,
     ),
   ]),
-  makeSong("Test", "Test", 100, [
-    makeTact(
-      [
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-      ],
-      0,
-    ),
-    makeTact(
-      [
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-      ],
-      1,
-    ),
-    makeTact(
-      [
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-        createColumn(3, "3", NoteDuration.EIGHTH),
-      ],
-      2,
-    ),
-  ]),
+  // makeSong("Test", "Test", 100, [
+  //   makeTact(
+  //     [
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //     ],
+  //     0,
+  //   ),
+  //   makeTact(
+  //     [
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //     ],
+  //     1,
+  //   ),
+  //   makeTact(
+  //     [
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //       createColumn(3, "3", NoteDuration.EIGHTH),
+  //     ],
+  //     2,
+  //   ),
+  // ]),
 ];
