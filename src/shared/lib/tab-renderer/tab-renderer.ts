@@ -211,7 +211,7 @@ export class TabRenderer {
       return baseX + NOTE_WIDTH * fraction;
     }
 
-    return baseX + NOTE_WIDTH / 2;
+    return baseX;
   }
 
   private drawPlayhead(x: number, y: number): void {
