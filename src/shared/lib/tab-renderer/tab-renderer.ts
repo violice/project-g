@@ -24,7 +24,7 @@ const COLORS = {
   text: "#64748b",
   highlight: "rgba(99, 102, 241, 0.1)",
   correctHighlight: "rgba(16, 185, 129, 0.1)",
-  playhead: "#6366f1",
+  playhead: "#10b981",
 };
 
 export interface PlayheadProgress {
