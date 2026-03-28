@@ -63,7 +63,7 @@ export function Visualizer() {
       <h2 className="text-base font-semibold text-slate-700 mb-4">Партитура</h2>
       <div
         ref={containerRef}
-        className="rounded-lg overflow-x-auto bg-slate-900 min-h-[220px] max-h-[450px]"
+        className="rounded-lg overflow-x-auto border border-slate-200 min-h-[220px] max-h-[450px]"
       />
     </section>
   );

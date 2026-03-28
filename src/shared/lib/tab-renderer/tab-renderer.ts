@@ -15,16 +15,16 @@ const STRING_COUNT = 6;
 const DEFAULT_STRINGS = ["e", "B", "G", "D", "A", "E"];
 
 const COLORS = {
-  background: "#1a1a2e",
-  strings: "#4a4a6a",
-  tactBar: "#e94560",
-  noteDefault: "#ffffff",
-  noteActive: "#ffd93d",
-  noteCorrect: "#00ff88",
-  text: "#888888",
-  highlight: "rgba(233, 69, 96, 0.15)",
-  correctHighlight: "rgba(0, 255, 136, 0.15)",
-  playhead: "#00ff88",
+  background: "#f8fafc",
+  strings: "#cbd5e1",
+  tactBar: "#6366f1",
+  noteDefault: "#1e293b",
+  noteActive: "#f59e0b",
+  noteCorrect: "#10b981",
+  text: "#64748b",
+  highlight: "rgba(99, 102, 241, 0.1)",
+  correctHighlight: "rgba(16, 185, 129, 0.1)",
+  playhead: "#6366f1",
 };
 
 export interface PlayheadProgress {
@@ -242,7 +242,7 @@ export class TabRenderer {
     ctx.font = "bold 11px monospace";
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#888888";
+    ctx.fillStyle = COLORS.text;
 
     for (let i = 0; i < STRING_COUNT; i++) {
       const stringY = y + i * STRING_SPACING;
@@ -268,8 +268,9 @@ export class TabRenderer {
 
         const noteKey = `${this.state.columnIndex}-${stringIdx}`;
         if (this.state.correctNotes?.has(noteKey)) {
-          ctx.fillStyle = COLORS.noteCorrect;
+          ctx.fillStyle = COLORS.correctHighlight;
           ctx.fillRect(x + 2, noteY - 12, NOTE_WIDTH - 4, 20);
+          ctx.fillStyle = COLORS.noteCorrect;
         } else {
           ctx.fillStyle = COLORS.noteDefault;
         }

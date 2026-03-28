@@ -18,7 +18,6 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
   const correctNotes = useCorrectNotes();
   const playbackState = usePlaybackState();
   const config = noteCheckerStore.state.config;
-  const [showResult, setShowResult] = useState(false);
   const [resultData, setResultData] = useState({ correct: 0, total: 0 });
 
   const handleNoteDetected = useCallback(
@@ -45,17 +44,10 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
   }, [enabled, status, start, stop]);
 
   useEffect(() => {
-    if (playbackState === "playing") {
-      setShowResult(false);
-    }
-  }, [playbackState]);
-
-  useEffect(() => {
     if (playbackState === "stopped" && enabled) {
       const total = noteCheckerStore.state.playedNotes;
       const correct = correctNotes.length;
       setResultData({ correct, total });
-      setShowResult(true);
     }
   }, [playbackState, enabled, correctNotes.length]);
 
@@ -75,7 +67,7 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
     <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm min-h-[100px]">
       <h3 className="text-base font-semibold text-slate-700">Проверка нот</h3>
 
-      {enabled ? (
+      {enabled && (
         <div className="mt-4 space-y-3">
           <NoteIndicator status={status} currentResult={currentResult} />
           <div className="flex items-center justify-between text-xs text-slate-400">
@@ -100,13 +92,15 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
             </span>
           </div>
         </div>
-      ) : (
+      )}
+
+      {!enabled && !resultData.total && (
         <div className="mt-4 flex items-center justify-center h-16 text-sm text-slate-400">
           Нажмите воспроизвести для проверки нот
         </div>
       )}
 
-      {showResult && resultData.total > 0 && (
+      {!enabled && resultData.total > 0 && (
         <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
           <h4 className="text-sm font-semibold text-slate-700 mb-2">Результат</h4>
           <div className="flex items-center gap-4">
