@@ -17,12 +17,14 @@ export class AudioPitchDetector {
   private readonly clarityThreshold: number;
   private readonly fftSize: number;
   private readonly smoothingTimeConstant: number;
+  private readonly volumeThreshold: number;
 
   constructor(config: AudioPitchDetectorConfig = {}) {
     this.noteNames = config.noteNames ?? DEFAULT_NOTE_NAMES;
     this.clarityThreshold = config.clarityThreshold ?? 0.92;
     this.fftSize = config.fftSize ?? 2048;
     this.smoothingTimeConstant = config.smoothingTimeConstant ?? 0.1;
+    this.volumeThreshold = config.volumeThreshold ?? 0.7;
   }
 
   async start(onAnalysis: (result: PitchDetectionResult | null) => void): Promise<void> {
@@ -87,6 +89,16 @@ export class AudioPitchDetector {
     return this.isRunning;
   }
 
+  private analyseVolume() {
+    const buffer = this.inputBuffer!!;
+    let sum = 0;
+    for (let i = 0; i < buffer.length; i++) {
+      sum += buffer[i] * buffer[i];
+    }
+    sum /= buffer.length;
+    return Math.sqrt(sum);
+  }
+
   private analyze(): void {
     if (!this.isRunning) {
       return;
@@ -104,8 +116,11 @@ export class AudioPitchDetector {
       this.audioContext.sampleRate,
     );
 
+    const volume = this.analyseVolume();
+    // console.log(volume, 'volumeLevel');
+
     const result: PitchDetectionResult | null =
-      pitch > 0 && clarity >= this.clarityThreshold
+      pitch > 0 && clarity >= this.clarityThreshold && volume >= this.volumeThreshold
         ? {
             frequency: pitch,
             clarity,

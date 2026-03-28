@@ -16,6 +16,7 @@ export interface AudioPitchDetectorConfig {
   smoothingTimeConstant?: number;
   clarityThreshold?: number;
   noteNames?: string[];
+  volumeThreshold?: number;
 }
 
 export interface AudioPitchDetectorState {
