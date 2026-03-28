@@ -15,7 +15,7 @@ export function SongSelector() {
   };
 
   return (
-    <section className="bg-white rounded-xl p-6 mb-6 border border-slate-200 shadow-sm">
+    <section className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
       <h2 className="text-lg font-semibold text-slate-700 mb-4">Выберите песню</h2>
       <div className="flex flex-col gap-3">
         {songs.map((song, index) => {

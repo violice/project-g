@@ -45,6 +45,12 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
   }, [enabled, status, start, stop]);
 
   useEffect(() => {
+    if (playbackState === "playing") {
+      setShowResult(false);
+    }
+  }, [playbackState]);
+
+  useEffect(() => {
     if (playbackState === "stopped" && enabled) {
       const total = noteCheckerStore.state.playedNotes;
       const correct = correctNotes.length;
@@ -52,18 +58,6 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
       setShowResult(true);
     }
   }, [playbackState, enabled, correctNotes.length]);
-
-  const toggleEnabled = () => {
-    const newEnabled = !noteCheckerStore.state.enabled;
-    noteCheckerActions.setEnabled(newEnabled);
-    setShowResult(false);
-
-    if (newEnabled) {
-      start();
-    } else {
-      stop();
-    }
-  };
 
   const getAccuracyPercent = () => {
     if (resultData.total === 0) return 0;
@@ -79,21 +73,9 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
 
   return (
     <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm min-h-[100px]">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-slate-700">Проверка нот</h3>
-        <button
-          onClick={toggleEnabled}
-          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-            enabled
-              ? "bg-green-500 text-white hover:bg-green-600"
-              : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-          }`}
-        >
-          {enabled ? "Вкл" : "Выкл"}
-        </button>
-      </div>
+      <h3 className="text-base font-semibold text-slate-700">Проверка нот</h3>
 
-      {enabled && (
+      {enabled ? (
         <div className="mt-4 space-y-3">
           <NoteIndicator status={status} currentResult={currentResult} />
           <div className="flex items-center justify-between text-xs text-slate-400">
@@ -117,6 +99,10 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
               {correctNotes.length}/{noteCheckerStore.state.playedNotes}
             </span>
           </div>
+        </div>
+      ) : (
+        <div className="mt-4 flex items-center justify-center h-16 text-sm text-slate-400">
+          Нажмите воспроизвести для проверки нот
         </div>
       )}
 

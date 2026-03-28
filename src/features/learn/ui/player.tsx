@@ -46,9 +46,7 @@ export function Player({ playerRef }: PlayerProps) {
         learnActions.setPlaybackState("playing");
         learnActions.setProgress(0);
         learnActions.updateVisualizerState({ currentTact: 0, currentNote: 0, columnIndex: 0 });
-        if (noteCheckerStore.state.enabled) {
-          noteCheckerActions.reset();
-        }
+        noteCheckerActions.reset();
       },
       onPause: () => learnActions.setPlaybackState("paused"),
       onStop: () => {
@@ -133,17 +131,6 @@ export function Player({ playerRef }: PlayerProps) {
     }
   };
 
-  const handleRestart = () => {
-    if (activePlayerRef.current) {
-      activePlayerRef.current.handleAction(MusicActionType.STOP);
-      const baseBpm = songs[currentSongIndex].bpm;
-      const actualBpm = Math.round(baseBpm * playbackSpeed);
-      const comp = cloneWithBpm(songs[currentSongIndex].composition, actualBpm);
-      activePlayerRef.current.loadComposition(comp);
-      activePlayerRef.current.handleAction(MusicActionType.PLAY);
-    }
-  };
-
   const handleBpmUp = () => {
     const newSpeed = Math.min(2, playbackSpeed + 0.1);
     learnActions.setPlaybackSpeed(parseFloat(newSpeed.toFixed(1)));
@@ -194,28 +181,20 @@ export function Player({ playerRef }: PlayerProps) {
         >
           <span>&#9632;</span> Стоп
         </button>
-        <button
-          onClick={handleRestart}
-          className="px-4 py-2.5 rounded-lg font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-all shadow-sm flex items-center gap-2"
-        >
-          <span>&#8634;</span> Сначала
-        </button>
-      </div>
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1 bg-slate-100 rounded-lg px-2 py-1">
-          <span className="text-xs text-slate-500 pr-1">Скорость:</span>
+        <div className="flex items-center gap-2 bg-slate-100 rounded-lg px-3 py-2.5 shadow-sm">
+          <span className="text-xs font-semibold text-slate-700">Скорость:</span>
           <button
             onClick={handleBpmDown}
-            className="px-2 py-1 rounded font-bold text-slate-600 hover:bg-slate-200 transition-all"
+            className="px-2 py-0.5 rounded-md font-bold text-slate-600 hover:bg-slate-200 transition-all"
           >
             -
           </button>
-          <span className="px-2 py-1 text-sm font-mono font-bold text-slate-700 min-w-[48px] text-center">
+          <span className="py-0.5 text-sm font-mono font-bold text-slate-700 min-w-[48px] text-center">
             {playbackSpeed.toFixed(1)}x
           </span>
           <button
             onClick={handleBpmUp}
-            className="px-2 py-1 rounded font-bold text-slate-600 hover:bg-slate-200 transition-all"
+            className="px-2 py-0.5 rounded-md font-bold text-slate-600 hover:bg-slate-200 transition-all"
           >
             +
           </button>
