@@ -17,6 +17,8 @@ export interface AudioPitchDetectorConfig {
   clarityThreshold?: number;
   noteNames?: string[];
   volumeThreshold?: number;
+  stabilityFrames?: number;
+  frequencySmoothingWindow?: number;
 }
 
 export interface AudioPitchDetectorState {

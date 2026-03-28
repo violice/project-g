@@ -18,6 +18,12 @@ export class AudioPitchDetector {
   private readonly fftSize: number;
   private readonly smoothingTimeConstant: number;
   private readonly volumeThreshold: number;
+  private readonly stabilityFrames: number;
+  private readonly frequencySmoothingWindow: number;
+
+  private historyBuffer: { frequency: number; noteName: string; timestamp: number }[] = [];
+  private lastStableNote: string | null = null;
+  private lastStableFrequency: number = 0;
 
   constructor(config: AudioPitchDetectorConfig = {}) {
     this.noteNames = config.noteNames ?? DEFAULT_NOTE_NAMES;
@@ -25,6 +31,8 @@ export class AudioPitchDetector {
     this.fftSize = config.fftSize ?? 2048;
     this.smoothingTimeConstant = config.smoothingTimeConstant ?? 0.1;
     this.volumeThreshold = config.volumeThreshold ?? 0.7;
+    this.stabilityFrames = config.stabilityFrames ?? 3;
+    this.frequencySmoothingWindow = config.frequencySmoothingWindow ?? 5;
   }
 
   async start(onAnalysis: (result: PitchDetectionResult | null) => void): Promise<void> {
@@ -83,6 +91,9 @@ export class AudioPitchDetector {
     this.inputBuffer = null;
     this.isRunning = false;
     this.onAnalysis = null;
+    this.historyBuffer = [];
+    this.lastStableNote = null;
+    this.lastStableFrequency = 0;
   }
 
   get isActive(): boolean {
@@ -117,9 +128,8 @@ export class AudioPitchDetector {
     );
 
     const volume = this.analyseVolume();
-    // console.log(volume, 'volumeLevel');
 
-    const result: PitchDetectionResult | null =
+    const rawResult: PitchDetectionResult | null =
       pitch > 0 && clarity >= this.clarityThreshold && volume >= this.volumeThreshold
         ? {
             frequency: pitch,
@@ -128,8 +138,72 @@ export class AudioPitchDetector {
           }
         : null;
 
+    const result = this.applyStabilityLogic(rawResult);
+
     this.onAnalysis?.(result);
 
     this.animationFrameId = requestAnimationFrame(() => this.analyze());
+  }
+
+  private applyStabilityLogic(rawResult: PitchDetectionResult | null): PitchDetectionResult | null {
+    const now = Date.now();
+
+    if (rawResult && rawResult.note) {
+      this.historyBuffer.push({
+        frequency: rawResult.frequency,
+        noteName: rawResult.note.name,
+        timestamp: now,
+      });
+    }
+
+    const windowStart = now - 500;
+    this.historyBuffer = this.historyBuffer.filter(entry => entry.timestamp > windowStart);
+
+    if (this.historyBuffer.length < this.stabilityFrames) {
+      return null;
+    }
+
+    const recentEntries = this.historyBuffer.slice(-this.stabilityFrames);
+    const noteCounts = new Map<string, number>();
+    for (const entry of recentEntries) {
+      noteCounts.set(entry.noteName, (noteCounts.get(entry.noteName) || 0) + 1);
+    }
+
+    let mostFrequentNote: string | null = null;
+    let maxCount = 0;
+    for (const [noteName, count] of noteCounts) {
+      if (count > maxCount) {
+        maxCount = count;
+        mostFrequentNote = noteName;
+      }
+    }
+
+    const noteConfirmed = maxCount >= this.stabilityFrames;
+
+    if (!noteConfirmed) {
+      return null;
+    }
+
+    if (mostFrequentNote !== this.lastStableNote) {
+      this.lastStableNote = mostFrequentNote;
+      const frequenciesForNote = recentEntries
+        .filter(e => e.noteName === mostFrequentNote)
+        .map(e => e.frequency);
+      this.lastStableFrequency = this.getSmoothedFrequency(frequenciesForNote);
+    }
+
+    const avgClarity = rawResult?.clarity ?? 0.9;
+
+    return {
+      frequency: this.lastStableFrequency,
+      clarity: avgClarity,
+      note: frequencyToNote(this.lastStableFrequency, this.noteNames),
+    };
+  }
+
+  private getSmoothedFrequency(frequencies: number[]): number {
+    const window = frequencies.slice(-this.frequencySmoothingWindow);
+    const sum = window.reduce((a, b) => a + b, 0);
+    return sum / window.length;
   }
 }
