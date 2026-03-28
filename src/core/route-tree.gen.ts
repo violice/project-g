@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './../routes/__root'
 import { Route as TunerRouteImport } from './../routes/tuner'
+import { Route as ProfileRouteImport } from './../routes/profile'
 import { Route as LearnRouteImport } from './../routes/learn'
 import { Route as IndexRouteImport } from './../routes/index'
 
 const TunerRoute = TunerRouteImport.update({
   id: '/tuner',
   path: '/tuner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearnRoute = LearnRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/learn': typeof LearnRoute
+  '/profile': typeof ProfileRoute
   '/tuner': typeof TunerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/learn': typeof LearnRoute
+  '/profile': typeof ProfileRoute
   '/tuner': typeof TunerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/learn': typeof LearnRoute
+  '/profile': typeof ProfileRoute
   '/tuner': typeof TunerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/learn' | '/tuner'
+  fullPaths: '/' | '/learn' | '/profile' | '/tuner'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/learn' | '/tuner'
-  id: '__root__' | '/' | '/learn' | '/tuner'
+  to: '/' | '/learn' | '/profile' | '/tuner'
+  id: '__root__' | '/' | '/learn' | '/profile' | '/tuner'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LearnRoute: typeof LearnRoute
+  ProfileRoute: typeof ProfileRoute
   TunerRoute: typeof TunerRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/tuner'
       fullPath: '/tuner'
       preLoaderRoute: typeof TunerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/learn': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LearnRoute: LearnRoute,
+  ProfileRoute: ProfileRoute,
   TunerRoute: TunerRoute,
 }
 export const routeTree = rootRouteImport

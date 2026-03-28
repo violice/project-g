@@ -25,12 +25,12 @@ function MetricCard({
   icon: React.ElementType;
 }) {
   return (
-    <div className="bg-white rounded-xl p-5 border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 text-center">
-      <div className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-blue-500 mb-3">
-        <Icon className="w-5 h-5 text-white" />
+    <div className="bg-white rounded-xl p-8 border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 text-center">
+      <div className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-blue-500 mb-4">
+        <Icon className="w-7 h-7 text-white" />
       </div>
-      <div className="text-xs text-slate-500 mb-1">{label}</div>
-      <div className="text-base font-bold text-slate-800 leading-tight">{value}</div>
+      <div className="text-sm text-slate-500 mb-2">{label}</div>
+      <div className="text-lg font-bold text-slate-800 leading-tight">{value}</div>
     </div>
   );
 }
@@ -157,7 +157,7 @@ function App() {
             </div>
 
             {/* Metrics Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
               <MetricCard label="MVP" value="4-6 месяцев" icon={Clock} />
               <MetricCard label="Core" value="Ноты + тайминг" icon={Music} />
               <MetricCard label="ЦА" value="Новички 12-35" icon={Target} />
