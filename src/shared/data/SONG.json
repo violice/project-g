@@ -1,0 +1,272 @@
+[
+  {
+    "tacts": [
+      {
+        "size": "4/4",
+        "tactColumns": [
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 1,
+            "numberInTact": 0
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 1,
+            "numberInTact": 1
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 16,
+            "numberInTact": 2
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 8,
+            "numberInTact": 3
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 4,
+            "numberInTact": 4
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 2,
+            "numberInTact": 5
+          }
+        ],
+        "serialNumber": 0
+      },
+      {
+        "size": "4/4",
+        "tactColumns": [
+          {
+            "notes": [
+              { "value": "", "functionType": null, "stringNumber": 0 },
+              { "value": "", "functionType": null, "stringNumber": 1 },
+              { "value": "", "functionType": null, "stringNumber": 2 },
+              { "value": "", "functionType": null, "stringNumber": 3 },
+              { "value": "0", "functionType": null, "stringNumber": 4 },
+              { "value": "", "functionType": null, "stringNumber": 5 }
+            ],
+            "duration": 4,
+            "numberInTact": 0
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": null, "stringNumber": 0 },
+              { "value": "", "functionType": null, "stringNumber": 1 },
+              { "value": "0", "functionType": null, "stringNumber": 2 },
+              { "value": "", "functionType": null, "stringNumber": 3 },
+              { "value": "", "functionType": null, "stringNumber": 4 },
+              { "value": "", "functionType": null, "stringNumber": 5 }
+            ],
+            "duration": 4,
+            "numberInTact": 1
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": null, "stringNumber": 0 },
+              { "value": "0", "functionType": null, "stringNumber": 1 },
+              { "value": "", "functionType": null, "stringNumber": 2 },
+              { "value": "", "functionType": null, "stringNumber": 3 },
+              { "value": "", "functionType": null, "stringNumber": 4 },
+              { "value": "", "functionType": null, "stringNumber": 5 }
+            ],
+            "duration": 4,
+            "numberInTact": 2
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "0", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 8,
+            "numberInTact": 3
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 4,
+            "numberInTact": 4
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 2,
+            "numberInTact": 5
+          }
+        ],
+        "serialNumber": 1
+      },
+      {
+        "size": "4/4",
+        "tactColumns": [
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 1,
+            "numberInTact": 0
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 1,
+            "numberInTact": 1
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 16,
+            "numberInTact": 2
+          },
+          {
+            "notes": [
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 8,
+            "numberInTact": 3
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "2", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 4,
+            "numberInTact": 4
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 2,
+            "numberInTact": 5
+          }
+        ],
+        "serialNumber": 2
+      },
+      {
+        "size": "4/4",
+        "tactColumns": [
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 1,
+            "numberInTact": 0
+          },
+          {
+            "notes": [
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 0 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 1 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 2 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 3 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 4 },
+              { "value": "", "functionType": "DEFAULT", "stringNumber": 5 }
+            ],
+            "duration": 1,
+            "numberInTact": 1
+          }
+        ],
+        "serialNumber": 3
+      }
+    ],
+    "number": null,
+    "instrument": "GUITAR"
+  }
+]
