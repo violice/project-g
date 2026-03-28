@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { BookOpen } from "lucide-react";
 import { useCorrectNotes, noteCheckerStore } from "@/features/note-checker";
 import { songs } from "@/shared/data";
 import { TabRenderer } from "@/shared/lib/tab-renderer";
@@ -44,11 +45,20 @@ export function Visualizer() {
   }, [correctNotes]);
 
   return (
-    <section className="bg-white rounded-xl p-5 mb-6 border border-slate-200 shadow-sm">
-      <h2 className="text-base font-semibold text-slate-700 mb-4">Партитура</h2>
+    <section className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/25">
+          <BookOpen className="w-6 h-6 text-white" />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-slate-800">Партитура</h2>
+          <p className="text-sm text-slate-500">Визуализация нот и тактов</p>
+        </div>
+      </div>
+
       <div
         ref={containerRef}
-        className="rounded-lg overflow-x-auto border border-slate-200 min-h-[220px] max-h-[450px]"
+        className="rounded-xl overflow-x-auto border-2 border-slate-200 min-h-[220px] max-h-[450px] bg-slate-50"
       />
     </section>
   );

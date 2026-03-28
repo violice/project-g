@@ -25,12 +25,12 @@ function MetricCard({
   icon: React.ElementType;
 }) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-lg hover:border-blue-300 transition-all duration-300 hover:-translate-y-1">
-      <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500 mb-4">
-        <Icon className="w-6 h-6 text-white" />
+    <div className="bg-white rounded-xl p-5 border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 text-center">
+      <div className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-blue-500 mb-3">
+        <Icon className="w-5 h-5 text-white" />
       </div>
-      <div className="text-sm font-medium text-slate-500 mb-1">{label}</div>
-      <div className="text-xl font-bold text-slate-800">{value}</div>
+      <div className="text-xs text-slate-500 mb-1">{label}</div>
+      <div className="text-base font-bold text-slate-800 leading-tight">{value}</div>
     </div>
   );
 }
