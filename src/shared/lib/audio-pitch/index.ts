@@ -1,0 +1,1 @@
+export {useAudioPitchDetector } from './audio-pitch.hooks';

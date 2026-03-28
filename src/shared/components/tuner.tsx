@@ -1,4 +1,4 @@
-import { useAudioPitchDetector } from "@/shared/lib/audio-pitch";
+import { useAudioPitchDetector } from "@/shared/lib/audio-pitch/audio-pitch";
 
 export function Tuner() {
   const { status, currentResult, isListening, isInTune, detuneAmount, start, stop, error } =
