@@ -1,9 +1,9 @@
-import { useAudioPitchDetector } from "@/shared/lib/audio-pitch";
+import { useAudioPitchDetector, getStringForFrequency } from "@/shared/lib/audio-pitch";
 
 export const Tuner = () => {
   const { status, currentResult, isListening, isInTune, detuneAmount, start, stop, error } =
     useAudioPitchDetector({
-      clarityThreshold: 0.92,
+      clarityThreshold: 0.82,
       onNoteDetected: result => {
         console.log("Note detected:", result.note?.name, result.frequency);
       },
@@ -11,6 +11,8 @@ export const Tuner = () => {
         console.log("Note lost");
       },
     });
+
+  const detectedString = currentResult ? getStringForFrequency(currentResult.frequency) : null;
 
   const getStatusText = () => {
     switch (status) {
@@ -60,11 +62,17 @@ export const Tuner = () => {
                 : `${currentResult.note.cents > 0 ? "+" : ""}${currentResult.note.cents} cents`}
             </span>
           </div>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-3 gap-4 text-sm">
             <div className="text-slate-500">
               Частота:{" "}
               <span className="font-medium text-slate-700">
                 {currentResult.frequency.toFixed(2)} Hz
+              </span>
+            </div>
+            <div className="text-slate-500">
+              Струна:{" "}
+              <span className="font-medium text-slate-700">
+                {detectedString ? `${detectedString.string} (${detectedString.note})` : "-"}
               </span>
             </div>
             <div className="text-slate-500">

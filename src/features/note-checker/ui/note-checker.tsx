@@ -46,7 +46,7 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
 
   useEffect(() => {
     if (playbackState === "stopped" && enabled) {
-      const total = noteCheckerStore.state.totalNotes;
+      const total = noteCheckerStore.state.playedNotes;
       const correct = correctNotes.length;
       setResultData({ correct, total });
       setShowResult(true);
@@ -78,7 +78,7 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm min-h-[100px]">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-semibold text-slate-700">Проверка нот</h3>
         <button
@@ -94,19 +94,34 @@ export function NoteChecker({ onNoteDetected }: NoteCheckerProps) {
       </div>
 
       {enabled && (
-        <div className="space-y-3">
+        <div className="mt-4 space-y-3">
           <NoteIndicator status={status} currentResult={currentResult} />
-          <div className="text-xs text-slate-500">
-            Окно: {config.timeWindowMs}мс | Точность: {config.frequencyTolerance}%
+          <div className="flex items-center justify-between text-xs text-slate-400">
+            <span>Окно: {config.timeWindowMs}мс</span>
+            <span>Точность: {config.frequencyTolerance}%</span>
           </div>
-          <div className="text-sm text-slate-600">
-            Правильно: {correctNotes.length} из {noteCheckerStore.state.totalNotes}
+          <div className="flex items-center gap-2">
+            <div className="flex-1 h-1.5 rounded-full bg-slate-100 overflow-hidden">
+              <div
+                className="h-full bg-green-500 rounded-full transition-all"
+                style={{
+                  width: `${
+                    noteCheckerStore.state.playedNotes > 0
+                      ? Math.round((correctNotes.length / noteCheckerStore.state.playedNotes) * 100)
+                      : 0
+                  }%`,
+                }}
+              />
+            </div>
+            <span className="text-sm font-medium text-slate-600 tabular-nums">
+              {correctNotes.length}/{noteCheckerStore.state.playedNotes}
+            </span>
           </div>
         </div>
       )}
 
       {showResult && resultData.total > 0 && (
-        <div className="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
+        <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
           <h4 className="text-sm font-semibold text-slate-700 mb-2">Результат</h4>
           <div className="flex items-center gap-4">
             <div className={`text-2xl font-bold ${getResultColor()}`}>{getAccuracyPercent()}%</div>

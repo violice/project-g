@@ -59,11 +59,11 @@ export function Visualizer() {
   }, [correctNotes]);
 
   return (
-    <section className="bg-white rounded-xl p-6 mb-6 border border-slate-200 shadow-sm">
-      <h2 className="text-lg font-semibold text-slate-700 mb-4">Score Visualization</h2>
+    <section className="bg-white rounded-xl p-5 mb-6 border border-slate-200 shadow-sm">
+      <h2 className="text-base font-semibold text-slate-700 mb-4">Партитура</h2>
       <div
         ref={containerRef}
-        className="rounded-lg overflow-x-auto bg-slate-900 min-h-[200px] max-h-[400px]"
+        className="rounded-lg overflow-x-auto bg-slate-900 min-h-[220px] max-h-[450px]"
       />
     </section>
   );

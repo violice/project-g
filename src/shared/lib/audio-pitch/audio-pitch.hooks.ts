@@ -22,9 +22,9 @@ export function useAudioPitchDetector(
   options: UseAudioPitchDetectorOptions = {},
 ): UseAudioPitchDetectorReturn {
   const {
-    clarityThreshold = 0.92,
+    clarityThreshold = 0.82,
     fftSize = 2048,
-    smoothingTimeConstant = 0.1,
+    smoothingTimeConstant = 0.05,
     noteNames,
     onNoteDetected,
     onNoteLost,

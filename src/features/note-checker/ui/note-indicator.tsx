@@ -13,7 +13,7 @@ export function NoteIndicator({ status, currentResult }: NoteIndicatorProps) {
       case "requesting":
         return "Запрос доступа к микрофону...";
       case "listening":
-        return "Слушаю...";
+        return "Слушаю";
       case "error":
         return "Ошибка";
       default:
@@ -24,7 +24,7 @@ export function NoteIndicator({ status, currentResult }: NoteIndicatorProps) {
   return (
     <div className="flex items-center gap-3">
       <div
-        className={`w-3 h-3 rounded-full ${
+        className={`w-3 h-3 rounded-full flex-shrink-0 ${
           status === "listening"
             ? "bg-green-500 animate-pulse"
             : status === "error"
@@ -32,11 +32,13 @@ export function NoteIndicator({ status, currentResult }: NoteIndicatorProps) {
               : "bg-slate-300"
         }`}
       />
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <span className="text-sm text-slate-600">{getStatusText()}</span>
       </div>
       {currentResult?.note && (
-        <div className="text-lg font-bold text-slate-800">{currentResult.note.name}</div>
+        <div className="w-10 h-10 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-lg">
+          {currentResult.note.name}
+        </div>
       )}
     </div>
   );

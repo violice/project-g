@@ -22,6 +22,7 @@ export interface LearnState {
   progress: number;
   position: Position;
   bpm: number;
+  playbackSpeed: number;
   renderer: TabRenderer | null;
   visualizerState: VisualizerState;
 }
@@ -32,6 +33,7 @@ const initialState: LearnState = {
   progress: 0,
   position: { tact: 0, beat: 0, total: 0 },
   bpm: 120,
+  playbackSpeed: 1,
   renderer: null,
   visualizerState: { currentTact: 0, currentNote: 0, columnIndex: 0 },
 };
@@ -43,6 +45,7 @@ export const usePlaybackState = () => useStore(learnStore, s => s.playbackState)
 export const useProgress = () => useStore(learnStore, s => s.progress);
 export const usePosition = (): Position => useStore(learnStore, s => s.position);
 export const useBpm = () => useStore(learnStore, s => s.bpm);
+export const usePlaybackSpeed = () => useStore(learnStore, s => s.playbackSpeed);
 export const useRenderer = (): TabRenderer | null => useStore(learnStore, s => s.renderer);
 export const useVisualizerState = (): VisualizerState =>
   useStore(learnStore, s => s.visualizerState);
@@ -55,6 +58,8 @@ export const learnActions = {
   setProgress: (progress: number) => learnStore.setState(prev => ({ ...prev, progress })),
   setPosition: (position: Position) => learnStore.setState(prev => ({ ...prev, position })),
   setBpm: (bpm: number) => learnStore.setState(prev => ({ ...prev, bpm })),
+  setPlaybackSpeed: (speed: number) =>
+    learnStore.setState(prev => ({ ...prev, playbackSpeed: speed })),
   resetPosition: () =>
     learnStore.setState(prev => ({
       ...prev,

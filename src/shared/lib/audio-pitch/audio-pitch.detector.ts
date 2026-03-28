@@ -27,12 +27,12 @@ export class AudioPitchDetector {
 
   constructor(config: AudioPitchDetectorConfig = {}) {
     this.noteNames = config.noteNames ?? DEFAULT_NOTE_NAMES;
-    this.clarityThreshold = config.clarityThreshold ?? 0.92;
+    this.clarityThreshold = config.clarityThreshold ?? 0.82;
     this.fftSize = config.fftSize ?? 2048;
-    this.smoothingTimeConstant = config.smoothingTimeConstant ?? 0.1;
-    this.volumeThreshold = config.volumeThreshold ?? 0.7;
-    this.stabilityFrames = config.stabilityFrames ?? 3;
-    this.frequencySmoothingWindow = config.frequencySmoothingWindow ?? 5;
+    this.smoothingTimeConstant = config.smoothingTimeConstant ?? 0.05;
+    this.volumeThreshold = config.volumeThreshold ?? 0.5;
+    this.stabilityFrames = config.stabilityFrames ?? 2;
+    this.frequencySmoothingWindow = config.frequencySmoothingWindow ?? 3;
   }
 
   async start(onAnalysis: (result: PitchDetectionResult | null) => void): Promise<void> {
@@ -180,7 +180,7 @@ export class AudioPitchDetector {
       }
     }
 
-    const noteConfirmed = maxCount >= this.stabilityFrames;
+    const noteConfirmed = maxCount >= Math.ceil(this.stabilityFrames * 0.6);
 
     if (!noteConfirmed) {
       return null;

@@ -56,3 +56,27 @@ export function getDetuneDirection(cents: number): "sharp" | "flat" | "in-tune" 
   if (Math.abs(cents) <= 5) return "in-tune";
   return cents > 0 ? "sharp" : "flat";
 }
+
+export const GUITAR_STRINGS = [
+  { string: 1, note: "E", frequency: 329.63 },
+  { string: 2, note: "B", frequency: 246.94 },
+  { string: 3, note: "G", frequency: 196.0 },
+  { string: 4, note: "D", frequency: 146.83 },
+  { string: 5, note: "A", frequency: 110.0 },
+  { string: 6, note: "E", frequency: 82.41 },
+] as const;
+
+export function getStringForFrequency(frequency: number): { string: number; note: string } | null {
+  let closestString: { string: number; note: string } | null = null;
+  let minDiff = Infinity;
+
+  for (const s of GUITAR_STRINGS) {
+    const diffInCents = Math.abs(1200 * Math.log2(frequency / s.frequency));
+    if (diffInCents < minDiff && diffInCents < 100) {
+      minDiff = diffInCents;
+      closestString = s;
+    }
+  }
+
+  return closestString;
+}

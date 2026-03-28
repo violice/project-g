@@ -67,6 +67,30 @@ export class TabRenderer {
     this.draw();
   }
 
+  private scrollToPlayhead(x: number, y: number): void {
+    const containerRect = this.container.getBoundingClientRect();
+    const margin = 80;
+
+    if (x > containerRect.width - margin || x < margin) {
+      const newScroll = Math.max(0, x - containerRect.width / 2);
+      this.container.scrollLeft = newScroll;
+    }
+
+    const stringSpacing = 24;
+    const stringY = y + 3 * stringSpacing;
+
+    if (stringY > 0) {
+      const containerHeight = containerRect.height;
+      const scrollTop = this.container.parentElement?.scrollTop ?? 0;
+      if (stringY > scrollTop + containerHeight - margin || stringY < scrollTop + margin) {
+        this.container.parentElement?.scrollTo({
+          top: Math.max(0, stringY - containerHeight / 2),
+          behavior: "smooth",
+        });
+      }
+    }
+  }
+
   private calculateHeight(): number {
     if (!this.composition) return 150;
 
@@ -170,6 +194,7 @@ export class TabRenderer {
     if (noteColumnIndex >= 0 && noteColumnIndex < tact.notes.length) {
       const playheadX = this.calculatePlayheadX(tact, x, noteColumnIndex);
       this.drawPlayhead(playheadX, y);
+      this.scrollToPlayhead(playheadX, y);
     }
   }
 
@@ -214,8 +239,14 @@ export class TabRenderer {
     ctx.strokeStyle = COLORS.strings;
     ctx.lineWidth = 1;
 
+    ctx.font = "bold 11px monospace";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#888888";
+
     for (let i = 0; i < STRING_COUNT; i++) {
       const stringY = y + i * STRING_SPACING;
+      ctx.fillText(this.options.stringNames[i], x - 8, stringY);
       ctx.beginPath();
       ctx.moveTo(x, stringY);
       ctx.lineTo(x + width, stringY);
@@ -244,10 +275,6 @@ export class TabRenderer {
         }
 
         ctx.fillText(note.value, x + NOTE_WIDTH / 2, noteY);
-
-        ctx.font = "10px Arial";
-        ctx.fillStyle = "#ff0000";
-        ctx.fillText(`S${stringIdx}`, x + NOTE_WIDTH / 2, noteY - 12);
       }
     }
   }

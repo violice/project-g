@@ -13,6 +13,7 @@ export interface NoteCheckerState {
   currentNote: number;
   config: NoteCheckerConfig;
   noteStartTime: number;
+  playedNotes: number;
 }
 
 const initialState: NoteCheckerState = {
@@ -24,6 +25,7 @@ const initialState: NoteCheckerState = {
   currentNote: -1,
   config: DEFAULT_NOTE_CHECKER_CONFIG,
   noteStartTime: 0,
+  playedNotes: 0,
 };
 
 export const noteCheckerStore = createStore<NoteCheckerState>(initialState);
@@ -47,7 +49,7 @@ export const noteCheckerActions = {
     noteCheckerStore.setState(prev => ({
       ...prev,
       expectedFrequencies: frequencies,
-      totalNotes: prev.totalNotes + (frequencies.length > 0 ? 1 : 0),
+      playedNotes: prev.playedNotes + (frequencies.some(f => f > 0) ? 1 : 0),
       noteStartTime: Date.now(),
     })),
 
@@ -107,6 +109,7 @@ export const noteCheckerActions = {
       expectedFrequencies: [],
       currentTact: -1,
       currentNote: -1,
+      playedNotes: 0,
     })),
 
   updateConfig: (partial: Partial<NoteCheckerConfig>) =>

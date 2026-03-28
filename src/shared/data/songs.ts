@@ -1,15 +1,5 @@
 import type { Composition } from "../lib/music-player";
 import { NoteFunctionType, NoteDuration } from "../lib/music-player";
-import songJson from "./SONG.json";
-import song2Json from "./SONG_2.json";
-import { jsonToComposition } from "./json-converter";
-
-export interface Song {
-  name: string;
-  description: string;
-  bpm: number;
-  composition: Composition;
-}
 
 const createLine = (
   value: string,
@@ -21,9 +11,7 @@ const createLine = (
   functionType: func,
 });
 
-const emptyLine = (duration: number) => {
-  return createLine("", duration, NoteFunctionType.DEFAULT);
-};
+const emptyLine = (duration: number) => createLine("", duration, NoteFunctionType.DEFAULT);
 
 const createColumn = (index: number, value: string, duration: number) => {
   const column = Array(6).fill(emptyLine(duration));
@@ -31,84 +19,213 @@ const createColumn = (index: number, value: string, duration: number) => {
   return column;
 };
 
-export const songs: Song[] = [
-  {
-    name: "Imported from JSON",
-    description: "Imported from SONG.json",
-    bpm: 120,
-    composition: jsonToComposition(songJson as any, "Imported from JSON", 120),
-  },
-  {
-    name: "Imported from JSON 2",
-    description: "Imported from SONG_2.json",
-    bpm: 120,
-    composition: jsonToComposition(song2Json as any, "Imported from JSON 2", 120),
-  },
-  {
-    name: "Test",
+const makeTact = (notes: ReturnType<typeof createColumn>[], serialNumber: number) => ({
+  sizeStr: "4/4",
+  serialNumber,
+  notes,
+});
+
+const makeStave = (tacts: ReturnType<typeof makeTact>[]) => ({
+  instrument: "GUITAR" as const,
+  tacts,
+});
+
+export interface Song {
+  name: string;
+  description: string;
+  bpm: number;
+  composition: Composition;
+}
+
+const makeSong = (
+  name: string,
+  description: string,
+  bpm: number,
+  tacts: ReturnType<typeof makeTact>[],
+): Song => ({
+  name,
+  description,
+  bpm,
+  composition: {
+    name,
+    bpm,
+    complexity: 2,
     description: "",
-    bpm: 120,
-    composition: {
-      name: "Test",
-      bpm: 120,
-      complexity: 3,
-      description: "",
-      videoLink: "",
-      staves: [
-        {
-          instrument: "GUITAR",
-          tacts: [
-            {
-              sizeStr: "4/4",
-              serialNumber: 0,
-              notes: [
-                createColumn(3, "3", NoteDuration.HALF),
-                createColumn(3, "5", NoteDuration.SIXTEENTH),
-                createColumn(1, "3", NoteDuration.SIXTEENTH),
-                createColumn(2, "1", NoteDuration.SIXTEENTH),
-                createColumn(3, "3", NoteDuration.EIGHTH),
-                createColumn(4, "5", NoteDuration.EIGHTH),
-              ],
-            },
-            {
-              sizeStr: "4/4",
-              serialNumber: 1,
-              notes: [
-                createColumn(3, "3", NoteDuration.HALF),
-                createColumn(3, "5", NoteDuration.SIXTEENTH),
-                createColumn(1, "3", NoteDuration.SIXTEENTH),
-                createColumn(2, "1", NoteDuration.SIXTEENTH),
-                createColumn(3, "3", NoteDuration.EIGHTH),
-                createColumn(4, "5", NoteDuration.SEMIBREVE),
-              ],
-            },
-            {
-              sizeStr: "4/4",
-              serialNumber: 2,
-              notes: [
-                createColumn(3, "3", NoteDuration.HALF),
-                createColumn(3, "5", NoteDuration.SIXTEENTH),
-                createColumn(1, "3", NoteDuration.SIXTEENTH),
-                createColumn(2, "1", NoteDuration.SIXTEENTH),
-                createColumn(3, "3", NoteDuration.EIGHTH),
-                createColumn(4, "5", NoteDuration.SEMIBREVE),
-              ],
-            },
-            {
-              sizeStr: "4/4",
-              serialNumber: 3,
-              notes: [
-                createColumn(3, "3", NoteDuration.HALF),
-                createColumn(3, "5", NoteDuration.SIXTEENTH),
-                createColumn(1, "3", NoteDuration.SIXTEENTH),
-                createColumn(2, "1", NoteDuration.SIXTEENTH),
-                createColumn(3, "3", NoteDuration.EIGHTH),
-                createColumn(4, "5", NoteDuration.SEMIBREVE),
-              ],
-            },
-          ],
-        },
-      ],
-    },
+    videoLink: "",
+    staves: [makeStave(tacts)],
   },
+});
+
+export const songs: Song[] = [
+  makeSong("Smoke on the Water", "Deep Purple — культовый рифф", 120, [
+    makeTact(
+      [
+        createColumn(5, "3", NoteDuration.SIXTEENTH),
+        createColumn(4, "1", NoteDuration.SIXTEENTH),
+        createColumn(3, "1", NoteDuration.SIXTEENTH),
+        createColumn(5, "3", NoteDuration.SIXTEENTH),
+        createColumn(4, "1", NoteDuration.SIXTEENTH),
+        createColumn(3, "1", NoteDuration.SIXTEENTH),
+        createColumn(5, "3", NoteDuration.SIXTEENTH),
+        createColumn(4, "1", NoteDuration.SIXTEENTH),
+      ],
+      0,
+    ),
+    makeTact(
+      [
+        createColumn(3, "1", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+      ],
+      1,
+    ),
+    makeTact(
+      [
+        createColumn(5, "3", NoteDuration.SIXTEENTH),
+        createColumn(4, "1", NoteDuration.SIXTEENTH),
+        createColumn(3, "1", NoteDuration.SIXTEENTH),
+        createColumn(5, "3", NoteDuration.SIXTEENTH),
+        createColumn(4, "1", NoteDuration.SIXTEENTH),
+        createColumn(3, "1", NoteDuration.SIXTEENTH),
+        createColumn(5, "3", NoteDuration.SIXTEENTH),
+        createColumn(4, "1", NoteDuration.SIXTEENTH),
+      ],
+      2,
+    ),
+    makeTact(
+      [
+        createColumn(3, "1", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+        createColumn(5, "5", NoteDuration.SIXTEENTH),
+      ],
+      3,
+    ),
+  ]),
+  makeSong("C Major Scale", "Простая гамма для разминки", 80, [
+    makeTact(
+      [
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(4, "3", NoteDuration.EIGHTH),
+        createColumn(4, "5", NoteDuration.EIGHTH),
+        createColumn(4, "6", NoteDuration.EIGHTH),
+        createColumn(4, "5", NoteDuration.EIGHTH),
+        createColumn(4, "3", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+      ],
+      0,
+    ),
+    makeTact(
+      [
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "4", NoteDuration.EIGHTH),
+        createColumn(3, "5", NoteDuration.EIGHTH),
+        createColumn(3, "4", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+      ],
+      1,
+    ),
+  ]),
+  makeSong("E Power Chord", "Power chord — основа рока", 100, [
+    makeTact(
+      [
+        createColumn(5, "0", NoteDuration.EIGHTH),
+        createColumn(5, "0", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(5, "0", NoteDuration.EIGHTH),
+        createColumn(5, "0", NoteDuration.EIGHTH),
+      ],
+      0,
+    ),
+    makeTact(
+      [
+        createColumn(5, "0", NoteDuration.EIGHTH),
+        createColumn(5, "0", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(5, "0", NoteDuration.EIGHTH),
+        createColumn(5, "0", NoteDuration.EIGHTH),
+      ],
+      1,
+    ),
+    makeTact(
+      [
+        createColumn(5, "3", NoteDuration.EIGHTH),
+        createColumn(5, "3", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(5, "3", NoteDuration.EIGHTH),
+        createColumn(5, "3", NoteDuration.EIGHTH),
+      ],
+      2,
+    ),
+    makeTact(
+      [
+        createColumn(5, "3", NoteDuration.EIGHTH),
+        createColumn(5, "3", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(3, "2", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(4, "1", NoteDuration.EIGHTH),
+        createColumn(5, "3", NoteDuration.EIGHTH),
+        createColumn(5, "3", NoteDuration.EIGHTH),
+      ],
+      3,
+    ),
+  ]),
+  makeSong("Test", "Test", 100, [
+    makeTact(
+      [
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+      ],
+      0,
+    ),
+    makeTact(
+      [
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+      ],
+      1,
+    ),
+    makeTact(
+      [
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+        createColumn(3, "3", NoteDuration.EIGHTH),
+      ],
+      2,
+    ),
+  ]),
 ];
