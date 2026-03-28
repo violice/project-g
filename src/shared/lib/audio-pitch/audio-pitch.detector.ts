@@ -130,8 +130,9 @@ export class AudioPitchDetector {
     );
 
     let volume = this.analyseVolume();
+    
     volume = 1 / (1 + Math.exp(-100 * (volume - 0.02)));
-    console.log(volume);
+
     const rawResult: PitchDetectionResult | null =
       pitch > 0 && clarity >= this.clarityThreshold && volume >= this.volumeThreshold
         ? {
