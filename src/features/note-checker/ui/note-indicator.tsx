@@ -24,7 +24,7 @@ export function NoteIndicator({ status, currentResult }: NoteIndicatorProps) {
   return (
     <div className="flex items-center gap-3">
       <div
-        className={`w-3 h-3 rounded-full flex-shrink-0 ${
+        className={`w-3 h-3 shrink-0 rounded-full flex-shrink-0 ${
           status === "listening"
             ? "bg-green-500 animate-pulse"
             : status === "error"

@@ -62,11 +62,11 @@ function RouteComponent() {
               </div>
               <span className="font-bold text-slate-800">CrazyTunes</span>
             </div>
-            <div className="flex gap-6 text-sm text-slate-500">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-sm text-slate-500 text-center">
               <span>Интерактивное обучение</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span>Распознавание нот</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span>Мгновенный фидбек</span>
             </div>
           </div>

@@ -76,7 +76,7 @@ export const Tuner = () => {
       {/* Status */}
       <div className="flex items-center gap-2 mb-6 p-4 rounded-xl bg-slate-50 border border-slate-100">
         <div
-          className={`w-3 h-3 rounded-full ${
+          className={`w-3 h-3 shrink-0 rounded-full ${
             status === "listening"
               ? isInTune
                 ? "bg-emerald-500"
@@ -93,32 +93,32 @@ export const Tuner = () => {
       {currentResult?.note && (
         <div className="space-y-6">
           {/* Main Note */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span className="text-7xl font-extrabold text-slate-800 tracking-tight">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <span className="text-5xl sm:text-7xl font-extrabold text-slate-800 tracking-tight">
                 {currentResult.note.name}
               </span>
               {currentResult.note.octave && (
-                <span className="text-2xl font-bold text-slate-400">
+                <span className="text-xl sm:text-2xl font-bold text-slate-400">
                   {currentResult.note.octave}
                 </span>
               )}
             </div>
             <span
-              className={`rounded-full px-4 py-2 text-sm font-bold shadow-md ${
+              className={`rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold shadow-md ${
                 isInTune
                   ? "bg-emerald-100 text-emerald-700 border-2 border-emerald-200"
                   : "bg-amber-100 text-amber-700 border-2 border-amber-200"
               }`}
             >
               {isInTune
-                ? "В строю ✓"
+                ? "В строю"
                 : `${currentResult.note.cents > 0 ? "↑ " : "↓ "}${Math.abs(currentResult.note.cents)} cents`}
             </span>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
               <p className="text-xs text-slate-500 mb-1">Частота</p>
               <p className="text-lg font-bold text-slate-800 font-mono">

@@ -311,7 +311,7 @@ function App() {
           <div className="max-w-5xl mx-auto">
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-lg border border-slate-200">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center shrink-0">
                   <TrendingUp className="w-6 h-6 text-white" />
                 </div>
                 <h2 className="text-3xl font-bold text-slate-800">MVP: экономика и прогноз</h2>
@@ -444,11 +444,11 @@ function App() {
               </div>
               <span className="font-bold text-slate-800">CrazyTunes</span>
             </div>
-            <div className="flex gap-6 text-sm text-slate-500">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-sm text-slate-500 text-center">
               <span>Web-first UX</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span>Fast Feedback Loop</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span>Interactive Learning</span>
             </div>
           </div>
