@@ -1,1 +1,1 @@
-export { Tuner } from "./ui";
+export { Tuner } from "./ui/tuner";

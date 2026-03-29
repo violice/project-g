@@ -25,9 +25,7 @@ export function SongSelector() {
         </div>
         <div>
           <h2 className="text-lg sm:text-xl font-bold text-slate-800">Выберите песню</h2>
-          <p className="text-xs sm:text-sm text-slate-500">
-            Выберите композицию для обучения
-          </p>
+          <p className="text-xs sm:text-sm text-slate-500">Выберите композицию для обучения</p>
         </div>
       </div>
 
