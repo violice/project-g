@@ -130,7 +130,7 @@ function RouteComponent() {
                 {mode === "practice" && <NoteChecker />}
               </div>
               <div className="lg:col-span-2">
-                <Legend mode={mode} />
+                <Legend />
               </div>
             </section>
 
