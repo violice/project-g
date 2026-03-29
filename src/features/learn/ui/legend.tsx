@@ -1,10 +1,6 @@
-import { Info, Lightbulb, Play, Target } from "lucide-react";
+import { Info, Lightbulb } from "lucide-react";
 
-interface LegendProps {
-  mode: "practice" | "listen";
-}
-
-export function Legend({ mode }: LegendProps) {
+export function Legend() {
   return (
     <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300 sticky top-8">
       <div className="flex items-center gap-2 mb-4">
